@@ -1,0 +1,360 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Gary Pavlis">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]">
+</head>
+<body>
+
+<h1>
+<font face="Times New Roman,Times"><font color="#FF0000">dbloc2 tutorial</font></font></h1>
+
+<hr WIDTH="100%">
+<br><i><font color="#CC6600">Purpose:</font></i>&nbsp; This exercise will
+teach you the basics of locating events with dbloc2 using a test data set
+from the anza network in southern California.
+<br>
+<hr WIDTH="100%">
+<br><i><font color="#CC6600">Preparation:</font></i>
+<br>&nbsp;
+<ol>
+<li>
+You should create a new directory to contain the data you will use for
+this exercise.&nbsp; I will refer to this directory from now on as $datadir
+as if I had done something like:&nbsp; set datadir=/u/pavlis/location_exercise.&nbsp;
+You will, of course, use a different directory name.</li>
+
+<li>
+You need to get the test data set which is in a file called "location_exercise.tar".&nbsp;&nbsp;
+Just&nbsp; <a href="http://geology.indiana.edu/pavlis/g515data/location_exercise.tar.gz">click
+here</a>&nbsp; and your browser should download a file called location_exercise.tar.gz
+.&nbsp;&nbsp; Make sure you download the data into $datadir.</li>
+
+<li>
+This is a compressed file.&nbsp; Uncompress it with:&nbsp; gunzip location_exercise.tar.gz</li>
+
+<li>
+Run tar to extract all the files as follows (assuming the current directory
+is $datadir):</li>
+
+<ol>tar xvf /s/pavlis/location_exercise.tar</ol>
+
+<li>
+type:&nbsp; dbloc2 anza</li>
+</ol>
+
+<hr WIDTH="100%">
+<br><i><font color="#CC6600">Get the feel for the basic buttons:</font></i>
+<p>You should see a display like this:
+<br><img SRC="startup_panel.gif" height=877 width=1053>
+<br>&nbsp;
+<br>&nbsp;
+<ol>
+<li>
+Note the overall organization of the control panel.&nbsp; The top section
+(above the "arrivals" bar) is used to move through the database (in time
+order), the middle section displays residual patterns and current location
+estimates, and the bottom section controls the location program(s) and
+interaction with dbpick.</li>
+
+<li>
+Push the "Locate" button in the very bottom row of button widgets.&nbsp;
+You should see a new location appear in the central section that will be
+nearly identical to the one already tabulated.&nbsp; They will differ slightly
+due to&nbsp; a fairly coarse convergence criteria used for this solution
+and the fact that this solution started from a very crude initial estimate.&nbsp;
+That is, the default uses the coordinates shown as a fixed initial location:&nbsp;
+33.4915 latitude, -116.6670 longitude, and a depth of 5 km.&nbsp; To see
+this push the "View Results" button which displays the convergence history.&nbsp;
+(Push "Dismiss" to make this window go away.&nbsp; Don't use the window
+manger's control button in the upper left corner.)</li>
+</ol>
+
+<hr WIDTH="100%"><i><font color="#CC6600">Initial location method:</font></i>
+<ol>
+<li>
+Let's experiment with an alternative initial location method.&nbsp; Notice
+the lower control panel button titled "Starting location:".&nbsp; It is
+marked a different color on startup in dbloc2.&nbsp; Click MB1 on this
+field and it will change to "Program will estimate starting location".&nbsp;&nbsp;&nbsp;
+Now push the locate button again.</li>
+
+<li>
+You will probably again get a slightly different location, and you may
+notice it took a bit longer to compute the solution.&nbsp; "View results"
+will show you the convergence history is different this time requiring
+quite a few less iterations.&nbsp; To see what we just did, find the button
+labeled "options" immediately below "dbgenloc" in the lower left corner
+and push it.&nbsp; This will bring up a control panel like this:</li>
+</ol>
+<img SRC="pf_genloc_panel.gif" height=234 width=605>
+<br>&nbsp;
+<blockquote>This is the main control panel for the location program.&nbsp;
+For now we are interested in the button labeled "Initial location method"&nbsp;
+currently set to "rectangle_gridsearch".&nbsp; Push that button and the
+following panel should appear:</blockquote>
+
+<p><br><img SRC="gridsearch_panel.gif" height=230 width=880>
+<br>&nbsp;
+<ol>
+<li>
+This panel defines the rectangular area (in latitude and longitude units)
+searched to obtain a starting location.&nbsp; The center location is essentially
+a coordinate system origin around which the grid is centered.&nbsp; For
+the settings above the grid is 4 degrees by 4 degrees so it runs from 31.5
+to 35.5 latitude and -118.5 to -114.5 longitude.&nbsp; The grid 3d and
+runs in depth also using a similar centered scheme.&nbsp; The above case
+uses 3 depths at 7.5, 10, and 12.5 km.</li>
+
+<li>
+Experiment with some of these parameters.&nbsp; Try increasing the density
+of the grid or widening the area of the search in map area or depth and
+see what, if anything, happens to the location.&nbsp; (Note:&nbsp; (1)
+If you make the grid too large, you may wait a fairly long time and have
+dbloc2 announce a "timeout" error.&nbsp; If you get this, it is wise to
+be patient because dbgenloc may still be computing.&nbsp; A grid search
+can take&nbsp; a long time if you make the grid very dense. (2) You need
+to push "Dismiss" for your changes to take effect.)</li>
+
+<li>
+In the "pf genloc" window try some of the other gridsearch options.&nbsp;&nbsp;
+The basic algorithm used in each is as follows:</li>
+
+<ul>
+<li>
+"Radial gridsearch" uses a polar grid focused on the same central point
+defined in the gridsearch option control panel.&nbsp; The same "Gridsearch
+Options' window can be used to vary the parameters that define this grid.&nbsp;
+This algorithm is most useful if you have data from a phased array that
+provides slowness vector estimates.&nbsp; In that situation, it is useful
+to put the central point at the array center.</li>
+
+<li>
+S-P time takes the earliest arrival station with both and S and P time,
+computes a rough estimate of the distance, and performs a&nbsp; radial
+grid search at that radius only (i.e. in a circle).&nbsp; It is important
+to note, however, that other gridsearch options control the details of
+this search.&nbsp; The number of points searched on this circle is controlled
+by the "Number of points azimuth" slider widget in the "Gridsearch Options"
+window.&nbsp; And how many depths are searched depends upon the same settings
+used for the rectangular grid.&nbsp; That is, if Ndepths is not one, the
+regions searched will actually be a cylinder.</li>
+
+<li>
+Nearest station is the classic nearest station method.&nbsp; The initial
+depth is set in a fairly obscure way as the depth listed in the main dbloc2
+control panel.&nbsp; This method works, but is not highly recommended as
+modern computers tend to yield more stable solutions more consistently
+with one of the grid search methods.</li>
+</ul>
+
+<p><br>Note:&nbsp; before continuing, I suggest you set the initial location
+mode to S-P time for the rest of this exercise.&nbsp; For these data it
+tends to represent the best cost-performance tradeoff.</ol>
+
+<hr WIDTH="100%">
+<br><i><font color="#CC6600">Other useful location controls:</font></i>
+<p>For the next phase of this exercise it is a good idea to clear the location
+window to get rid of some of the junk you created up to now.&nbsp; A simple
+hack way to do this is to locate the "Next" button above the arrivals window
+and push it, then push the adjacent "Previous" button.
+<ol>
+<li>
+Study the effects of fixing the depth.&nbsp; Locate the "Fix Depth"&nbsp;
+label with the small button to it's left.&nbsp; Push the small square and
+it should turn red.&nbsp; (This indicates locations will be done with the
+depth fixed.)&nbsp; Immediately to the left is a button labeled "Depth"
+with a number to it's immediate right that is the current fixed depth to
+us.&nbsp; The button is controlled by holding down MB1 over the "Depth"
+button and using a pull down menu to select a group of preset depths.</li>
+
+<li>
+Try computing solutions at 0, 5, 10,15, 20, and 25 km fixed depths.&nbsp;
+Notice that the "dtype" field changes from "f" (which I guess stands for
+free) to "g" (which the css3.0 book says means contrained by "geophysicist").</li>
+
+<li>
+Compare the rms residual tabulated as "sdobs" in the location output panel.&nbsp;
+Plot and hand in the curve and explain what it tells you about how well
+the depth of this event is constrained.</li>
+
+<li>
+Let's look at the results of this little test in map view also.&nbsp; Find
+the "Arrival Map" button in the center right part of the control panel
+and push it.&nbsp; You should get a display something like this:</li>
+</ol>
+
+<p><br><img SRC="arrival_map.gif" height=538 width=610>
+<p>Play with the HiRes, Coverage, and Graticule buttons.&nbsp; Enabling
+everything there will give you this slightly different picture:
+<p><img SRC="arrival_map_hires.gif" height=538 width=610>
+<br>&nbsp;
+<p>You can zoom the picture with a click/drag of MB1.&nbsp; To try move
+the screen pointer to a point somewhere a bit north of LVA2, hold down
+MB1, and drag the cursor to a point south of YAQ (A red box appears as
+you do this showing the area to be zoomed in.)&nbsp; When you release MB1,
+you will zoom the screen and get something like this:
+<p><img SRC="arrival_map_zoom.gif" height=538 width=610>
+<p>You can repeat this to zoom in closer.&nbsp; To back up just push the
+zoom out button.
+<br>
+<hr WIDTH="100%">
+<br><i><font color="#CC6600">Use dbpick to alter existing picks:</font></i>
+<p><font color="#000000">Now let's used dbpick to experiment with changing
+some of the arrival times.</font>
+<br>&nbsp;
+<ol>
+<li>
+<font color="#000000">Push the "Summon" button in the lower right of the
+control panel.&nbsp; This will bring up dbpick with a default display.</font></li>
+
+<li>
+<font color="#000000">The default display brings up all vertical channels.&nbsp;
+Directly left of the "Summon" button is one that presently says "Vertical".&nbsp;
+This button is actually a menu you enable by pushing and hold MB1 over
+this button and selecting alternatives.&nbsp; Try "All".</font></li>
+
+<li>
+<font color="#000000">Because this data set has a mix of BH, HH, and LH
+channels, the display you have now is less than ideal.&nbsp; The dbpick
+command menu, however, is active so select the dbpick command window and
+type:&nbsp; sc *:HH.&nbsp; (the trailing "." is necessary, not punctuation
+here).&nbsp; This selects all the high frequency channels recorded at 100
+sps.</font></li>
+
+<li>
+<font color="#000000">You are welcome to change any of my picks as you
+please, but one you might fix right off is the S pick on SND.&nbsp; The
+location output shows you that it has a fairly high residual and suggest
+is may be picked a bit late.&nbsp; Try moving this and other picks, rerunning
+the locator (push locate button), and observing the results.&nbsp; Are
+you able to improve on my picks?</font></li>
+</ol>
+
+<hr WIDTH="100%">
+<br><i><font color="#CC6600">Weighting in dbgenloc:</font></i>
+<p><font color="#000000">dbgenloc has a large collection of options related
+to weighting.&nbsp; You should read the genloc_intro man page for more
+details on all the options, but we will cover the basic ones here.</font>
+<br>&nbsp;
+<ol>
+<li>
+<font color="#000000">dbgenloc ALWAYS uses a set of weights controlled
+by uncertainty picks set with dbpick.&nbsp; These weights are set in dbpick
+by positioning the pointer OVER the arrival flag, hold down the shift key,
+and depress MB1.&nbsp; A box will appear centered on the arrival flag.&nbsp;
+This box shows the range you believe defines the uncertainty of this pick.&nbsp;
+In location, the reciprocal of the time duration of this box is used to
+weight each arrival.&nbsp; Consequently, if you make the box big, a pick
+will get a very low weight but if you make is small it will receive a very
+high weight.&nbsp; Experiment with this by artificially making one or more
+picks have a large or very small uncertainty and observe the results.&nbsp;&nbsp;
+Does it do what you expect?</font></li>
+
+<li>
+<font color="#000000">dbgenloc has an optional residual weighting feature.&nbsp;
+Here is the "options" control panel again for dbgenloc:</font></li>
+</ol>
+<img SRC="pf_genloc_panel.gif" height=234 width=605>
+<br>&nbsp;
+<blockquote><font color="#000000">Notice the section titled "Weights" with
+the labels "Arrival residual weight method" and "Slowness residual weight
+method".&nbsp; The later is for array data, which is beyond the scope of
+this exercise.&nbsp; We want to focus on the top label.&nbsp; The button
+(labeled "none" above) is a pull down menu on which you will find the following
+choices when you push that button with MB1:&nbsp; none, huber, thomson,
+and bisquare.&nbsp; These are each a set of weighting functions used for
+robust M-estimators and they are arranged in order of increasing aggressiveness
+to killing outliers.&nbsp; For this exercise, choose "huber".</font>
+<br>&nbsp;
+<ol>
+<li>
+<font color="#000000">Move one of the picks to a ridiculous position (>
+1 s off) and compare the results of "none" and "huber".&nbsp; What do you
+find?</font></li>
+
+<li>
+<font color="#000000">Move one or more other picks and see how well the
+"robust" estimator works?&nbsp; Theoretically robust estimators can reduce
+the impact of outliers.&nbsp; They generally work well if the there is
+enough redundancy and the outlier is clearly an outlier (i.e. if all the
+picks are bad, it is hard to tell which is wrong).</font></li>
+</ol>
+</blockquote>
+
+<hr WIDTH="100%">
+<br><i><font color="#CC6600">Picking and locating an event from scratch:</font></i>
+<p><font color="#000000">At this stage you want to first verify that you
+have all the options back to a reasonable setting.&nbsp; Check that the
+following are set:</font>
+<p><font color="#3333FF">Arrival residual weight method = huber</font>
+<br><font color="#3333FF">Initial location method = S-P time</font>
+<br><font color="#3333FF">Depth is NOT fixed (in main control panel)</font>
+<p><font color="#000000">Then follow this procedure for each event in the
+data set:</font>
+<br>&nbsp;
+<ol>
+<li>
+<font color="#000000">Select the dbpick waveform window.</font></li>
+
+<li>
+<font color="#000000">In the dbpick waveform window type "N" (without the
+quotes).&nbsp; This will bring up new waveforms that may look like pure
+noise.</font></li>
+
+<li>
+<font color="#000000">Use the zoom out controls on dbpick (shift MB3) and
+zoom in (shift MB1) to look at these waveform segments to find the event.&nbsp;
+They currently have no picks on them at all, so you will truly have to
+start from scratch.&nbsp; Note these events are most easily seen by selecting
+the 1 Hz HP (highpass) filter.</font></li>
+
+<li>
+<font color="#000000">Pick P and S on each station for which it is reasonable
+to do so.&nbsp; You can adopt your own strategy, but a good one is to lay
+down rough picks with the full view, then use the "Magnify" option (selected
+with MB3 in the pulldown menu with the pointer over the arrival flag) for
+each station to work through the data in some rational order (e.g. from
+the top down).&nbsp; As you pick set the times, be sure you set the uncertainties
+using the method described above (shift MB1 over the arrival flag) or the
+program will use default weights.</font></li>
+
+<li>
+<font color="#000000">When you have made all the picks you think are reasonable,
+try locating the event.</font></li>
+
+<li>
+<font color="#000000">Aim to get sdobs below 0.25 s.&nbsp; If you have
+any large residuals, double check your picks and verify all your uncertainty
+picks are reasonable and try again.&nbsp; Note, it is considered cheating
+and is, in fact, a very bad thing to do too much manual iteration to get
+the residuals to very small values.&nbsp; i.e. don't start tweeking every
+residual to get sdobs as small as possible.</font></li>
+
+<li>
+<font color="#000000">You may find it necessary to completely turn off
+one or more picks to get a stable solution.&nbsp; This can be done by pointing
+at the glyph for each phase in the residual window and clicking MB1 (You
+will note this changes the label -- i.e. P, S, etc. -- from black to grey.&nbsp;
+This indicates the arrival is discarded from the solution.)</font></li>
+</ol>
+
+<p><br><font color="#000000">Repeat this procedure for each of the four
+events in this tutorial data set.</font>
+<br>
+<hr WIDTH="100%"><i><font color="#CC6600">Plot up your results:</font></i>
+<p><font color="#000000">This is easy with the dbmapevents program.&nbsp;
+Try:</font>
+<p><font color="#3366FF">dbmapevents anza PFO 1.0</font>
+<p><font color="#000000">This will bring up a window displaying a map of
+events centered on the station PFO.&nbsp; There is no way to kill the window
+other than to find the "close" button set by the window manager (For Motif
+(CDE) it is the little tab in the upper left hand corner with the pulldown
+menu.)&nbsp; When you exit the program you will find a file in the directory
+you ran the program from called "dbmapevents.ps".&nbsp; Use the lpr command
+to send this postscript file to the printer.</font>
+<p><font color="#000000">You are welcome to experiment with some of the
+options on dbmapevents that are described in the man page.</font>
+</body>
+</html>

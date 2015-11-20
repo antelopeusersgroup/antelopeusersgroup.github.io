@@ -1,0 +1,30 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Gary Pavlis">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]">
+</head>
+<body>
+
+<h1>
+Adding to the default velocity model database</h1>
+
+<hr WIDTH="100%">
+<br>The default velocity model database is stored in the directory $ANTELOPE/data/tables/genloc/db
+and has the database name <i>vmodel</i>.&nbsp; If you have write access
+to these files this is the simplest way to add a new velocity model to
+the system.&nbsp; Run dbe on the vmodel database and bring up the mod1d
+table.&nbsp; You should get something like this:
+<br><img SRC="mod1d.gif" height=319 width=700>
+<br>Select the Edit->Add rows function from the top menu of dbe.&nbsp;
+This will bring up this form:
+<p><img SRC="addrows.gif" height=204 width=268>
+<p>A model you add must have a unique model name defined by the <i>modname</i>
+attribute.&nbsp; Enter each of the other attributes (For more info these
+attribute see document on the&nbsp; <a href="vmod_schema.html">velocity
+model schema.</a> )&nbsp; Note that you can enter the values in any depth
+order and they will be sorted before use, but it is generally smarter to
+enter them in order just to avoid typographical errors.
+</body>
+</html>

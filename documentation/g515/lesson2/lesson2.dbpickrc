@@ -1,0 +1,73 @@
+dbpick.traceWindow.twin:	60.0
+
+dbpick.filter1.label:		SPeriod
+dbpick.filter1.tpad:		100.0
+dbpick.filter1.lcoFreq:		0.7
+dbpick.filter1.lcoOrder:	5
+dbpick.filter1.ucoFreq:		1.1
+dbpick.filter1.ucoOrder:	5
+
+dbpick.filter2.label:		LPeriod
+dbpick.filter2.tpad:		100.0
+dbpick.filter2.ucoFreq:		0.06
+dbpick.filter2.ucoOrder:	5
+dbpick.filter2.lcoFreq:		0.01
+dbpick.filter2.lcoOrder:	3
+
+dbpick.filter3.label:		1.0 HP
+dbpick.filter3.tpad:		10.0
+dbpick.filter3.lcoFreq:		1.0
+dbpick.filter3.lcoOrder:	3
+dbpick.filter3.ucoFreq:		0.0
+dbpick.filter3.ucoOrder:	0
+
+dbpick.filter4.label:		1.0 LP
+dbpick.filter4.tpad:		10.0
+dbpick.filter4.ucoFreq:		1.0
+dbpick.filter4.ucoOrder:	3
+dbpick.filter4.lcoFreq:		0.0
+dbpick.filter4.lcoOrder:	0
+
+dbpick.filter5.label:		5.0 LP
+dbpick.filter5.tpad:		10.0
+dbpick.filter5.ucoFreq:		5.0
+dbpick.filter5.ucoOrder:	5
+dbpick.filter5.lcoFreq:		0.0
+dbpick.filter5.lcoOrder:	0
+
+dbpick.filter6.label:         5.0 HP
+dbpick.filter6.tpad:          10.0
+dbpick.filter6.lcoFreq:       5.0
+dbpick.filter6.lcoOrder:      3
+dbpick.filter6.ucoFreq:       0.0
+dbpick.filter6.ucoOrder:      0
+
+dbpick.filter7.label:         0.01-0.08 BP
+dbpick.filter7.tpad:          100.0
+dbpick.filter7.lcoFreq:       0.01
+dbpick.filter7.lcoOrder:      3
+dbpick.filter7.ucoFreq:       0.08
+dbpick.filter7.ucoOrder:      3
+
+dbpick.filter8.label:         0.01-0.5 BP
+dbpick.filter8.tpad:          100.0
+dbpick.filter8.lcoFreq:       0.01
+dbpick.filter8.lcoOrder:      3
+dbpick.filter8.ucoFreq:       0.5
+dbpick.filter8.ucoOrder:      3
+
+dbpick.filter9.label:         0.025-0.08 BP
+dbpick.filter9.tpad:          100.0
+dbpick.filter9.lcoFreq:       0.025
+dbpick.filter9.lcoOrder:      3
+dbpick.filter9.ucoFreq:       0.08
+dbpick.filter9.ucoOrder:      3
+
+bpick.phase1.name:	N
+dbpick.phase2.name:	P
+dbpick.phase3.name:	Pn
+dbpick.phase4.name:	Pg
+dbpick.phase5.name:	S
+dbpick.phase6.name:	Sn
+dbpick.phase7.name:	Lg
+dbpick.phase8.name:	R

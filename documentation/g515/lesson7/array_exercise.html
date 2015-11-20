@@ -1,0 +1,160 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 73.1">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]">
+   <title>array processor notes</title>
+</head>
+<body>
+&nbsp;
+<center>
+<p><b><font face="Palatino"><font size=+0>THE DBAP ARRAY PROCESSOR</font></font></b>
+<br><b><font face="Palatino"><font size=+0>Application to the Geyokcha
+Array</font></font></b></center>
+
+<p><b><font face="Palatino"><font size=+0>The Geyokcha Array</font></font></b>
+<p>The Geyokcha array, located near the Iran-Turkmenistan border <a href="fig-01.gif">(Geyokcha
+regional map)</a> , is an array of broadband &amp; short-period seismographs
+deployed during 1993-94, as part of the IRIS-supported US-Soviet Joint
+Seismic Program. The array is located near the Kopet Dagh fault zone, marking
+the southern edge of the Eurasian Plate <a href="fig-02.gif">(Array detail)</a>
+. There are a wide variety of local, regional, and teleseismic events recorded
+by the array, as well as a number of quarry and mining blasts. The array
+consists of nine three-component broadband stations and 36 short-period
+sensors&nbsp; <a href="fig-02.gif">(Array detail)</a> . For this exercise,
+we will be using only the broadband records. We will be using a segment
+of the array data from late 1993 through early 1994.
+<br>&nbsp;
+<br>&nbsp;
+<p><b>The Array Processing Software</b>
+<p>We will be using a number of array-processing programs developed by
+Danny Harvey at University of Colorado, who is now present of BRTT, the
+company that sells and maintains Antelope. The processes are conveniently
+controlled through a GUI interface, called process_array , that is a tcl/tk
+script written originally Danny and modified some by G. Pavlis. From this
+script, we can run dbpick, to examine the orginal seismic data,
+dbap, to
+run the array processor, fk_script, to compute and display azimuth-slowness
+plots, st_script, to compute and display slowness-time plots, bm_script,
+to compute and display the array beams, and wr_script, to write the beams
+to disk. The GUI interface is a convenient way to control these subprocesses,
+and to display the array processing information on the screen.
+<p>To set yourself up to begin this exercise do the following:
+<ol>
+<li>
+Create a working directory to contain the data files for this exercise
+and cd to that directory.&nbsp; Be warned this file is fairly large (30+
+Mbytes when uncompressed) so be sure you have space available to hold the
+data.</li>
+
+<li>
+Download the file.&nbsp; Just&nbsp; <a href="http://geology.indiana.edu/pavlis/g515data/array_exercise.tar.gz">click
+here</a>&nbsp; to do this through your browser.
+
+<li>
+Assuming the current directory is the one you downloaded this file into,
+you need to uncompress the file with: gunzip array_exercise.tar.gz</li>
+
+<li>
+Run tar to extract all the files contained in the tarball holding all the
+stuff you need:&nbsp;&nbsp; tar xvf array_exercise.tar</li>
+
+<li>
+You should now have a working database with everything in order.&nbsp;
+Just type:&nbsp; process_array</li>
+
+<li>
+The following control panel should appear:</li>
+</ol>
+<img SRC="dbap_controlpanel.gif" height=720 width=894>
+<br>&nbsp;
+<p>Note that the display shows the data being used for this exercise (gey)
+and the central reference station of the array (ORGH). The central portion
+of the interface shows a number of filter settings that we can use for
+calculating the array beams. The bottom of the display includes the buttons
+that control the sub-processes listed above.
+<p>(3) Start dbpick and dbap using the GUI interface buttons.
+<p>A dbpick window will open up, as well as two small xterm windows controlling
+dbpick and dbap. You might have to work a little to arrange the windows
+in some workable format.
+<p>(4) From the dbpick window, select one 3-component station to examine
+waveforms
+<p>sc ORGH:*
+<p>(later, if you want to examine all of the broadband verticals, you can
+display them using the command
+<p>sc *:HHZ,
+<p>or the short-period verticals, using
+<p>sc *:EHZ.
+<p>(5) Enable time fit to maximize the dbpick window
+<p>tfit
+<p>(6) Pick inital P-wave and S-wave arrivals, using the dbpick commands
+"Pick Arrivals" (See Gary's dbpick notes). Use filters as necessary to
+help identify phases--higher frequency for local events; lower frequencies
+for regional events and teleseisms.
+<p>(7) Run the azimuth-slowness script using the FK button on the process_array
+interface. A dbap display will open up, with "radar-screen" diagrams showing
+coherence as a function of azimuth and slowness. [Note: circles are at
+increments of 0.1 sec/km in slowness, and therefore non-linear in velocity].
+Look for focused directions of energy arrival, reasonable apparent velocities,
+and agreement between P and S arrival directions. Repeat picks and/or filters
+as necessary to get coherent arrivals.
+<p>(8) Run the slowness-time script using the ST button on the process_array
+interface. Three plots showing slowness as a function of time in the vertical,
+radial, and transverse directions will appear, with a display of the reference
+station data (filtered) and beam data (filtered) for the best-fit arrival
+direction. Look for coherent arrivals around the P and S times. Repick
+arrivals and repeat (6) - (8) as necessary.
+<p>(9) Examine the beams using the BEAM button on the process_array interface.
+The display will show 12 traces (4 each for vertical, radial, and transverse).
+In each group, the top one shows filtered data for the reference station,
+filtered data for the beam, unfiltered data for the reference station,
+and unfiltered beam data.
+<p>(10) If you wish to save the beam data, use the WRITE button on the
+process_array
+interface. Caution: You may only do this ONCE for each event. If you try
+to write over pre-existing beam traces, the program will crash! Do not
+write unless you're sure that you've got your final beam traces!
+<p>(11) If you wish to make hard copies, you must edit the script fk_script,
+located in your g515 directory. Find the line
+<p>set psfile none
+<p>and change the "none" to a file name (e.g., plot.ps). The next time
+you run FK or ST, the program will write a parallel copy to disk as a postscript
+file, which can be printed directly. The file will be wiped out the next
+time you run the script. To run more efficiently, return the filename to
+"none" when you are done printing. If you have trouble getting a clear
+output on the color printer, you may want to try the unix command
+<p>setenv GRX_GAMMA 2.0
+<p>to get a better color map to the printer.
+<p>(12) To seek associations with earthquake tables, use the commands
+<p>oe /p/data/db/pde/pde_1993 or pde_1994
+<p>to open the event data base, and
+<p>ae
+<p>to seek an event associated with your picks. Note that at least one
+pick must be made before running this command.
+<br>&nbsp;
+<br>&nbsp;
+<p><b>Your Assignment</b>
+<p>Process all the events you find in this database.&nbsp;&nbsp; Use the
+array azimuth estimates and S-P times to get location estimates of each
+event.&nbsp; We'll have a more precise catalog estimate at that time to
+compare what a computer program got to your rough solution.&nbsp; Some
+additional things to focus on are:
+<ol>
+<li>
+The events in this set&nbsp; span a range of distances from very close
+(I get ~ 5 km) to near teleseismic distances.&nbsp; What differences do
+you see in the kinds of waveforms you see at different distances?</li>
+
+<li>
+Try to use the array to help identify Pn, Pg, Sn, and Lg when this is appropriate.</li>
+
+<li>
+On the regional events, once you have picks of some of the regional phases
+investigate the frequency dependence of the different phases and their
+"character" and report on this to the rest of the group.</li>
+</ol>
+
+<br>&nbsp;
+</body>
+</html>

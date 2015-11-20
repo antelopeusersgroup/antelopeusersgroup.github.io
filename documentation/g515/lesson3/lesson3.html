@@ -1,0 +1,146 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.73 [en] (X11; U; SunOS 5.8 sun4u) [Netscape]">
+</head>
+<body>
+
+<center>
+<h1>
+G515:&nbsp; Lesson 3</h1></center>
+
+<center>Accessing Data from IRIS DMC</center>
+
+<hr WIDTH="100%">
+<br><i>Objective:</i>
+<br>This lesson will teach you steps required to download data from the
+IRIS Data Management Center through the interface they call "Wilber" and
+convert the download file into a form you can work with using the Antelope
+processing programs.
+<p>
+<hr WIDTH="100%">
+<p><i>Follow these steps:</i>
+<ol>
+<li>
+Go to the&nbsp;&nbsp; <a href="http://www.iris.washington.edu">IRIS DMC
+WEB SITE</a></li>
+
+<li>
+On the left Frame labeled <b>Quick Links</b> there is a link with the lable
+<b>Wilber</b>.&nbsp;
+Follow that link</li>
+
+<li>
+Follow the links on the right side of the page that comes up to use "Wilber
+II, son of Wilber"&nbsp; (You may want to bookmark this page when it comes
+up to avoid this path later)</li>
+
+<li>
+Select a quarter (Q1, Q2, etc.) and a year.&nbsp; Newer data has "Spyder"
+events, which means they were downloaded shortly after they occurred and
+have not been quality controlled.&nbsp; If you look at data more than about
+1 year old, the Spyder data are gone because they are superceded by "Farm"
+events (higher quality)&nbsp; You will get a display something like this:<img SRC="wilber_page.gif" height=712 width=850 align=TEXTTOP></li>
+
+<li>
+Point at a region of earthquakes with your mouse and left click with your
+mouse.&nbsp; You will get a list of events within the specified "Selection
+Radius".&nbsp; Experiment with the "Selection Radius" widget varying the
+search radius and area you select to get the feel for this interface.</li>
+
+<li>
+Select an event from the list by clicking on the date field</li>
+
+<li>
+A list of network codes comes up that describes different groups of stations
+run by different groups.&nbsp; Select II and IU under the IRIS GSN/GDSN
+group and click <b>Proceed</b></li>
+
+<li>
+A lengthy form comes up.&nbsp; It would be a good idea to print this page
+for later reference now.</li>
+
+<li>
+Note that the form is divided into two parts:&nbsp; (1) station codes,
+and (2) channel codes.&nbsp; You can use this to select from 1 to hundreds
+of channels of recordings of the event you have selected.&nbsp; For now
+choose <font color="#FF0000">ALL</font><font color="#000000"> stations
+and only the </font><font color="#FF0000">L </font><font color="#000000">channels
+(fyi, the codes are this:&nbsp; B - broadband, L - long period, S-short
+period, H - high frequency broadband, and E - triggered short period data.&nbsp;&nbsp;
+Wilber normally has only B, L, and S channels.&nbsp;&nbsp; The second letter
+is normally an H and the third letter in the code defines the orientation
+of the sensor: Z=vertical, N=north-south, and E=east-west).</font></li>
+
+<li>
+<font color="#000000">While you are here push the button labelled <u>Map
+of Responding Stations</u>.&nbsp; Try to print this image (The way to do
+this is browser and system dependent so the keyword is "try".&nbsp; It
+would be useful to have this picture next week when we discuss the event
+you chose.)</font></li>
+
+<li>
+<font color="#000000">Fill in the <b>Personal Information </b>typein fields
+in the lower right part of the page and check the <b>Notify me by email
+when complete </b>field.&nbsp; Then push the <b>Process Request</b> button
+(you are selecting the default data format which is called "SEED" for Standard
+Earthquake Exchange Data).</font></li>
+
+<li>
+<font color="#000000">A page comes up showing where you are in the queue
+for getting the data you requested.&nbsp; You can sit and wait for it to
+tell you it is finished, or wait until it send you email to tell you were
+to find the data.</font></li>
+
+<li>
+<font color="#000000">Grab the data from iris by anonymous ftp.&nbsp; You
+can use command line ftp to ftp.iris.washington.edu or a web browser pointing
+at&nbsp;</font> <a href="ftp://www.iris.washington.edu/pub/userdata">ftp://www.iris.washington.edu/pub/userdata</a>&nbsp;&nbsp;
+You should find your data in a directory under the name you&nbsp; typed
+as your <b>Personal Information</b> earlier.&nbsp; Be aware this file can
+easily get pretty large and could exceed your file quota on nations.&nbsp;
+You should probably place it in the /scratch area to prevent a quota violation
+in the download process (I assume you all have done enough web work to
+know how to do this.)</li>
+
+<li>
+When the file is completely transferred run the program called <b>psd2db</b>.&nbsp;
+First read the output from "man psd2db" to see the full usage of this command.&nbsp;
+(Note I have seen psd2db fail on DMC generated SEED files.&nbsp; If something
+goes wrong, try sd2db.&nbsp; The former is nicer to use because it does
+not require making a second copy or the data.&nbsp; The later can generate
+a large number of files that can be overwhelming.</li>
+
+<li>
+Run dbpick on the output "database" and play with the data a bit.&nbsp;
+Some things to experiment with are:</li>
+
+<ul>
+<li>
+The data display can be too messy to see anything and be slow to display.&nbsp;
+Use the sc command to limit the data you see.&nbsp; It can be useful to
+use the page from the Wilber form you printed earlier to select stations
+that might be of more interest.</li>
+
+<li>
+Use the oe, ae, and sp commands to bring up theoretical phase picks.</li>
+
+<li>
+Try selecting one component (e.g. sc *:BHZ) in combination with the "rec"
+command.&nbsp; This brings up a display of the events in distance order.&nbsp;&nbsp;&nbsp;
+Print what you get from this.</li>
+
+<li>
+Try the "pal on" command.&nbsp; This aligns the data on the theoretical
+P wave arrival time (ae has to be successful for this to work at all).&nbsp;
+Zoom into the P wave and print what you get (use BHZ channels for this,
+why?)</li>
+
+<li>
+Bring the hard copies with you next week for discussion by the class.</li>
+</ul>
+</ol>
+
+</body>
+</html>

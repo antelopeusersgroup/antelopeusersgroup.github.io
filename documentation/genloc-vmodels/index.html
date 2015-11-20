@@ -1,0 +1,81 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Gary Pavlis">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]">
+</head>
+<body>
+
+<center>
+<h1>
+
+<hr WIDTH="100%"></h1></center>
+
+<center>
+<h1>
+Velocity Model Setup for dbgenloc travel time calculators</h1></center>
+
+<center>
+<hr WIDTH="100%"></center>
+
+<ol>
+<li>
+You should first set up a velocity model database for antelope.&nbsp; (<a href="vmod_schema.html">Click
+here</a>&nbsp; for a description of the velocity model database schema.)&nbsp;
+A default version of this database will be installed in the 4.4 release
+of Antelope and above.&nbsp; Earlier releases require installing a recent
+version of the contrib software.</li>
+
+<li>
+If you want to add a new layered velocity model you have two options:&nbsp;
+(1) edit the&nbsp; <a href="edit_default.html">default velocity model database</a>&nbsp;
+model database or (2) create a&nbsp; <a href="my_vmodel_database_howto.html">personal
+velocity model database.</a>&nbsp;&nbsp; If you want to add a new taup
+calculator model you will need to follow the procedures for doing this.&nbsp;
+I (glp) haven't done this so you are on your own there.</li>
+
+<li>
+Now you need to attack the admittedly complex parameter files that genloc
+uses to define how it associates travel time calculators with each phase
+name.&nbsp;&nbsp; The quick version is this.&nbsp; (1)&nbsp; It is best
+to copy one of the existing parameter files in $ANTELOPE/data/tables/genloc/xxxx,
+where xxxx denotes one of several directories containing different phase
+defintions, to some location that describes your new model definition.&nbsp;
+(2)&nbsp; edit the phase definitions to set travel_time_calculator = general,
+TTmodel = yourmodelname, and TTmethod set appropriate for the&nbsp; chosen
+method.&nbsp; For more details see the document on&nbsp; <a href="phase_pf.html">genloc
+phase parameter file definitions.</a></li>
+
+<li>
+The final step is to edit your working dbloc2.pf file to allow dbloc2 and
+dbgenloc to see your new phase parameter file definition.&nbsp;&nbsp; Suppose,
+for example, you just added a new phase definition you called "baja.pf"
+to the directory $ANTELOPE/data/tables/genloc/1dcvl.&nbsp; Suppose you
+had this in your original dbloc2.pf file:</li>
+</ol>
+
+<hr WIDTH="100%">location_programs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&amp;Tbl{
+<br>dbgenloc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1dcvl/kyrghyz taup/kyrghyz
+ttlvz/kyrgyz ttlvz/iasp91
+<br>dblocsat2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; iasp91 # caucasus kyrghyz
+obn pakistan tanz_archean tanz_mobile
+<br>}
+<br>
+<hr WIDTH="100%">
+<br>Then you would change this to (assuming you wanted baja to be the default
+choice):
+<br>
+<hr WIDTH="100%">
+<br>location_programs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;Tbl{
+<br>dbgenloc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1dcvl/baja 1dcvl/kyrghyz
+taup/kyrghyz ttlvz/kyrgyz ttlvz/iasp91
+<br>dblocsat2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; iasp91 # caucasus kyrghyz
+obn pakistan tanz_archean tanz_mobile
+<br>}
+<br>
+<hr WIDTH="100%">
+<br>&nbsp;
+</body>
+</html>

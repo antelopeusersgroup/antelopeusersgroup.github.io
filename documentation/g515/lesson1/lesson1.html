@@ -1,0 +1,177 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Gary Pavlis">
+   <meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; SunOS 5.9 sun4u) [Netscape]">
+</head>
+<body>
+
+<h1>
+Lesson 1:&nbsp; Picking P phases with dbpick</h1>
+
+<hr WIDTH="100%">In this first lesson you will learn to pick the first
+arrival P phase with the dbpick program and how to use this information
+to identify other teleseismic phases.&nbsp; We will be using data from
+an array of seismic stations in southern California called Anza located
+in southern California.&nbsp; Here is a crude map of most of the stations:
+<br><img SRC="arrival_map.gif" height=538 width=610>
+<p>For this exercise we are going to using a set of well recorded teleseismic
+events that sweep across this modern broadband array of station.&nbsp;
+Here, in fact, is a map of where the events in the data set you will work
+with are located.
+<br><img SRC="anzatele.gif" height=792 width=612>
+<p>Notice that these are all fairly large earthquakes located some distance
+from California.&nbsp; They are "teleseisms" because they are located more
+than 1000 km from this group of stations.
+<p>Follow the following sequence of steps to complete this exercise.
+<br>
+<hr WIDTH="100%">
+<ul>
+<li>
+Obtain a private copy of the working database.</li>
+</ul>
+
+<ul>
+<ol>
+<li>
+Decide where you want to store the working database files.&nbsp; This will
+probably be a new subdirectory in your home directory.&nbsp; Try something
+like:&nbsp; mkdir ~/lesson1.&nbsp; From now on I'll refer to this location
+as "dbdir".&nbsp; You should substitute whatever location you chose to
+actually place these files.</li>
+
+<li>
+&nbsp;<a href="http://geology.indiana.edu/pavlis/g515data/lesson1.tar.gz">Click
+here</a>&nbsp; to download the data set.&nbsp; Use your web browser's download
+procedure to place the file into dbdir.</li>
+
+<li>
+When the download is finish in a terminal window cd to dbdir and type:&nbsp;
+gunzip -c lesson1.tar.gz | tar xf -</li>
+
+<li>
+The above should build a working database in dbdir with the name "anzatele".&nbsp;&nbsp;&nbsp;
+This will be your copy of the working dataset.</li>
+</ol>
+
+<li>
+In your terminal window type:&nbsp; dbpick anzatele</li>
+
+<li>
+This will bring up a graphic display window and will blast some text at
+your terminal window.&nbsp;&nbsp; When the program prints:&nbsp; Do you
+wish to see it?&nbsp;&nbsp; Type y or yes</li>
+
+<li>
+Experiment with the commands and mouse controls described in an associated
+<a href="dbpick_functions.html">dbpick functions</a>&nbsp; document.&nbsp;
+Focus for now on the&nbsp; <a href="dbp_commands.htm">commands</a>&nbsp;
+and&nbsp; <a href="dbp_mouse_graphic.htm">seismograph graphic window</a>&nbsp;
+functions of dbpick.&nbsp;&nbsp; Be sure you understand how to do the following:</li>
+
+<ol>
+<li>
+Time scrolling left and right</li>
+
+<li>
+Time zoom in and zoom out</li>
+
+<li>
+Controlling what traces are displayed (sc command)</li>
+
+<li>
+Experiment with the drop down menus at the top of the display (not described
+in the related documents)</li>
+</ol>
+
+<li>
+At this point it might be a good idea to also look at the man page for
+dbpick (type: man dbpick in ANOTHER terminal window -- you will confuse
+the dbpick command interpretter if you type this into it's command window).</li>
+
+<li>
+Try jumping through the set of events here by using the "nw" (next waveform)
+and "pw" commands.</li>
+
+<li>
+For the next step you will need to change the default time window to 1000
+s with the command:&nbsp; tw 1000.</li>
+
+<li>
+You can now do something similar with "fe" (first event) and typing "ne"
+(next event) to jump from event to event defined in this database.</li>
+
+<li>
+Pick the P waves on one of the events in the database (Please don't use
+the first event in the database but try to randomly choose another so we
+aren't all looking at the same event.&nbsp; Use the "fe" and one or more
+"ne" commands to select one of the events to process.) as follows:</li>
+
+<ol>
+<li>
+type sc *:BHZ to get only the vertical component.&nbsp; You will find PFO
+picked already.&nbsp; You can and should use this as a guideline to pick
+the P phase on the remaining seismograms.</li>
+
+<li>
+Zoom the display to show 15-20 s of data around the first arrival.</li>
+
+<li>
+Left click the "Add Arrivals" menu button.&nbsp; This will bring up a blue
+vertical line that will follow your cursor around. Point at the first arrival
+and left click.&nbsp; A red "flag" with a U should appear.</li>
+
+<li>
+Left click the "Add Arrivals" menu button again, but this time when you
+point at a seismogram use a right click instead of left.&nbsp; Notice that
+now you will get the cursor back after the click and an arrival flag still
+appears.&nbsp; This is the way you will eventually need to operate to pick
+a lot of seismograms at once because you won't have to keep hitting the
+menu button over and over again.&nbsp; Left click will exit from this mode.</li>
+
+<li>
+Label all your picks as "P" by positioning the cursor EXACTLY OVER each
+one arrival flag, hold down the middle mouse button, and select "P" from
+the drop down menu that should appear.</li>
+
+<li>
+type sc *:BHN,*:BHE to select only the horizontal components.</li>
+
+<li>
+Repeat the picking process for S phases.&nbsp; Be CAREFUL, however, to
+only pick S on one horizontal component or the other (i.e. N or E, not
+both).&nbsp;&nbsp; The bookeeping system gets confused if there are two
+S picks measured on the same station.</li>
+
+<li>
+When you have picked all the traces in this fashion type the following
+in the command window:</li>
+
+<ol>sc *:*
+<br>sp P,S</ol>
+</ol>
+
+<li>
+A set of "overlay arrivals" should appear showing the predicted arrival
+times.&nbsp; How well do your picks match the theoretical predictions?&nbsp;
+Be prepared next time to explain you observations.</li>
+
+<li>
+Printing the data with the picks is problematic.&nbsp; Use the "Snapshot"
+program found on Suns under the "Workspace menu" that can be accessed by
+a right click and hold on the desktop.&nbsp; Selecting snapshot launches
+the program.&nbsp; After that it is pretty much self explanatory and pretty
+easy to use.&nbsp; You can print directly from the Snapshot program or
+save the images and print them later.&nbsp; Bring them to class next week
+and we'll discuss your results.</li>
+
+<li>
+(Optional)&nbsp; If you want a head start on next week type:&nbsp; "sp
+basic" in the dbpick command window and look at the theoretical arrival
+time predictions.&nbsp; What phases do you see after P?&nbsp; Try making
+a color printout of for discussion.</li>
+</ul>
+
+</body>
+</html>

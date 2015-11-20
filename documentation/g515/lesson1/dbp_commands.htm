@@ -1,0 +1,144 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="WordPerfect 9">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#C0C0C0" link="#0000FF" vlink="#551A8B" alink="#FF0000">
+
+<h3>
+Common commands typed in a terminal window to control dbpick</h3>
+(This list is not complete.&nbsp; See man page for more complete list.)
+<br>
+<hr WIDTH="100%">
+<h2>
+sc</h2>
+
+<hr WIDTH="100%">
+<br>Mnemonic for "Station Channel" select.&nbsp; Sta and chan field are
+separated by the : character.&nbsp; Can be a comma separated list or use
+unix regular expression wildcarding.&nbsp; Examples:
+<br>&nbsp;
+<blockquote>sc AAK:BHZ,ULHL:BHZ,EKS:BHZ&nbsp;&nbsp;&nbsp;&nbsp; selects
+vertical (Z) broadband (B) channels for AAK, ULHL, and EKS
+<br>sc *:EHZ&nbsp;&nbsp;&nbsp;&nbsp; select all stations with an EHZ channel
+<br>sc *:.HZ&nbsp;&nbsp;&nbsp; select all vertical channels from all stations
+<br>sc ANMO:*&nbsp;&nbsp;&nbsp; select all channels from station ANMO</blockquote>
+Note:&nbsp; most digital data today is stored using SEED conventions for
+station-channel codes. The only one's I've seen are: LH - long period,
+BH -"Broadband", HH - triggered "broadband", SH - "short period", EH -&nbsp;
+triggered high frequency channels
+<br>
+<hr WIDTH="100%">
+<h2>
+ts timestring</h2>
+
+<hr WIDTH="100%">
+<br>Sets Time Start (i.e. the absolute time at the left side of the seismogram
+display) to the time defined by the "timestring" .&nbsp;&nbsp;&nbsp; The
+time string format should follow that seen on the graphics window.&nbsp;
+Example:
+<blockquote>ts 1999020:19:20:00.0</blockquote>
+sets the start time to day 20 of 1999 at 19:20:00.0 .
+<br>
+<hr WIDTH="100%">
+<h2>
+tw width</h2>
+
+<hr WIDTH="100%">
+<br>Set the default number of seconds of data to display to "width".&nbsp;&nbsp;&nbsp;
+Example:
+<blockquote>tw 600</blockquote>
+will display 10 minutes of data whenever the display jumps.&nbsp;&nbsp;
+Note that zoom in and out operations supercede this setting.
+<br>
+<hr WIDTH="100%">
+<h2>
+oe and ae commands</h2>
+
+<hr WIDTH="100%">
+<br>These two commands are nearly always used together.&nbsp; "oe" is mnemonic
+for Open Event database and "ae" is mnemonic for Associate Event.&nbsp;&nbsp;&nbsp;
+oe is always issued first to "open" and event data based.&nbsp; For example:
+<blockquote>oe /p/data/db/tables/reb/reb/1997</blockquote>
+tries open a css3.0 database containing an origin and event table named
+"1997" in the directory /p/data/db/tables/reb/reb.&nbsp; This command need
+only be typed once per run of dbpick.&nbsp; The database is normally kept
+"open" until dbpick exits.
+<p>The ae command is then used to associate picked phases to the list of
+events in the database defined with the oe command.&nbsp; At least one
+pick must be made on the seismograms visible in the main graphics window
+for this command to work, but picks not actually displayed will be associated
+with the arrivals.&nbsp;&nbsp; ae produces a lot of output when it is successful
+and gives information on distance and azimuth to each station.&nbsp;&nbsp;
+If you have write permission in the database you can issue the wa command
+to save a set of rows in the assoc table, but this is usually done better
+with a related package called dbloc2.
+<h2>
+
+<hr WIDTH="100%">rec</h2>
+
+<hr WIDTH="100%">
+<br>Orders data in a "record section format" meaning traces are arranged
+in order of increasing distance, although not scaled to any uniform distance
+scale. Note this&nbsp; requires&nbsp; running the ae command on the visible
+data first so the program can sort out the correct order.
+<br>
+<hr WIDTH="100%">
+<h2>
+sfit</h2>
+
+<hr WIDTH="100%">
+<br>Forces all the traces to fit in this window (Bad idea when the number
+of traces is greater than about 30).
+<br>
+<hr WIDTH="100%">
+<h2>
+tfit</h2>
+
+<hr WIDTH="100%">
+<br>"time fit". Time scale is adjusted to display full waveform segment
+(Useful for some segmented data, bad idea for most continuous data).
+<br>
+<hr WIDTH="100%">
+<h2>
+ps file</h2>
+
+<hr WIDTH="100%">
+<br>Writes a postscript image of what is on the screen right now to "file".
+(For example: ps peru.ps)&nbsp; Note the pick flags are not printed.
+<br>
+<hr WIDTH="100%">
+<h2>
+sa on/off</h2>
+
+<hr WIDTH="100%">
+<br>Turns the display of arrival flags on and off.&nbsp;&nbsp;&nbsp; Common
+use is to remove clutter when a large number of arrivals are picked or
+a large number of traces are displayed.
+<br>
+<hr WIDTH="100%">
+<h2>
+soa on/off</h2>
+
+<hr WIDTH="100%">
+<br>Toggles the "overlay arrivals" on and off.&nbsp; Overlay arrivals are
+theoretical arrival times based on the origin associated with a set of
+picks and an iaspei91 earth model that are displayed as lines with a label.&nbsp;
+Has no effect unless oe and ae had been typed earlier.
+<br>
+<hr WIDTH="100%">
+<h2>
+sp list</h2>
+
+<hr WIDTH="100%">
+<br>Controls the list of "overlay arrivals" displayed.&nbsp;&nbsp; This
+list is a comma separated list of phase names to be displayed.&nbsp; Examples:
+<blockquote>sp P,S,PP,SS&nbsp;&nbsp; - display theoretical times for P,
+S, PP, and SS phases
+<br>sp basic - display a set of predicted arrival times for a set of "standard"
+phases.</blockquote>
+
+</body>
+</html>

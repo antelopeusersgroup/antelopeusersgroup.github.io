@@ -1,0 +1,48 @@
+---
+layout: default
+---
+
+<div class="home">
+
+	<p>Antelope (TM) is a software package for real-time seismic network data
+	acquisition and processing. It is a commercial software package with roots
+	in the academic seismology community. <a href="http://brtt.com/">Boulder
+		Real Time Technology (BRTT)</a> is the commercial vendor for the
+	package. The Antelope Users Group is a community of scientists who are
+	using Antelope for real-time data acquisition and/or processing. The
+	organizers of the Antelope Users Group are not employees of BRTT, but
+	rather are end-users of Antelope software.</p>
+
+	<p>Some members of the AUG actively develop new software modules that
+	utilize Antelope as a framework. We exchange updates through the <a
+		href="https://github.com/antelopeusersgroup/antelope_contrib">antelope_contrib
+		Github repository</a> that allows developers at different institutions
+	to collaborate on code. If you are developing software for Antelope and
+	wish to become actively involved in this exchange, please visit our GitHub
+	repository. The <a
+		href="https://github.com/antelopeusersgroup/antelope_contrib/blob/master/README.md">README
+		for antelope_contrib</a> contains instructions for how to contribute
+	code.</p>
+
+	<p>There is a <a
+		href="https://groups.google.com/forum/#!forum/antelope-users-group">mailing
+		list for the Antelope Users Group</a> hosted at Google Groups. This is
+	a great way to get help with using Antelope from the community.</p>
+
+	<h1 class="page-heading">Posts</h1>
+
+	<ul class="post-list">
+		{% for post in site.posts %}
+		<li>
+		<span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+
+		<h2>
+			<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+		</h2>
+		</li>
+		{% endfor %}
+	</ul>
+
+	<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+
+</div>

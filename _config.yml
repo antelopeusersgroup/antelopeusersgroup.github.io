@@ -1,0 +1,13 @@
+# Site settings
+title: Antelope Users Group
+email: antelope-users-group@googlegroups.com
+description: > # this means to ignore newlines until "baseurl:"
+  The Antelope Users Group is a user community for the Antelope Real-Time
+  System by Boulder Real-Time- Technologies
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://antelopeusersgroup.github.io" # the base hostname & protocol for your site
+#twitter_username: jekyllrb
+github_username:  antelopeusersgroup
+
+# Build settings
+markdown: kramdown

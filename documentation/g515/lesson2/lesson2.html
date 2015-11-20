@@ -1,0 +1,91 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Gary Pavlis">
+   <meta name="GENERATOR" content="Mozilla/4.78 [en] (X11; U; SunOS 5.9 sun4u) [Netscape]">
+</head>
+<body>
+
+<h1>
+Lesson 2:&nbsp; Using theoretical times to identify teleseismic phases
+with dbpick</h1>
+
+<hr WIDTH="100%">This exercise will use the same data set we used in lesson
+1.&nbsp; That is, the set of large teleseismic events recorded on the Anza
+network, which you worked with before.
+<p>Proceed as follows:
+<ol>
+<li>
+The default dbpick filters are not very good for this excercise.&nbsp;
+
+<a href="lesson2.dbpickrc">Click here</a>&nbsp; to download a file called
+.dbpickrc.&nbsp; Use the&nbsp; File->save as menu item on your browser
+to place this file in the directory where you put the lesson 1 dataset.&nbsp;
+Save the file with the name ".dbpickrc".</li>
+
+<li>
+Start up dbpick on your copy of the database.&nbsp; There are a number
+of ways to do this but for this exercise it is cleanest to do do this.&nbsp;
+Enter:</li>
+
+<ol>oe catalog
+<br>fe
+<p>then type
+<br>ne
+<p>repeatedly.&nbsp;&nbsp;&nbsp; This is a useful was to scan through the
+data quickly.&nbsp; Note the association display noting event location,
+distance, and azimuth information that gets spewed out in the dbpick command
+window.</ol>
+
+<li>
+Zoom in/out to define a time window from just before P to a few minutes
+after the S arrival.</li>
+
+<li>
+Type:&nbsp; sp basic</li>
+
+<li>
+You should now see a set of theoretical arrival times for a set of "basic"
+teleseismic phases.&nbsp; They will be shown on the display with blue colored
+lines with phase labels.</li>
+
+<li>
+Switch between channel groupings to see which phases are seen as coherent
+arrivals across the entire array.&nbsp; That is type (without the quotes):&nbsp;&nbsp;
+"sc *:BHZ"&nbsp; to look at P phases and "sc *:BHN" and "sc *:BHE" to look
+at S phases.&nbsp; Make a mental or written note on which phases you think
+are actually observed on which channels.&nbsp; Experiment with the filters
+on the Filter menu.&nbsp;&nbsp; Many phases are only seen well at long
+periods while a few are more "broadband".&nbsp; (Explore this yourself
+and report your results next time.&nbsp; Consider why this is true and
+come prepared to discuss it.)</li>
+
+<li>
+You might want to be more specific and type things like:&nbsp; sp ScS.&nbsp;
+This would bring up the theoretical time only for ScS.</li>
+
+<li>
+When you have a phase you think is real you can pick it.&nbsp; A feature
+of dbpick, however, is that unless the phase is a simple phase name like
+P or S, you need to force the pick to be called something else.&nbsp; e.g.
+if you want to pick ScS type:&nbsp; ph ScS.&nbsp;&nbsp;&nbsp; Then pick
+the arrivals as you did last week for picking P.&nbsp; When you point and
+click the flag will appear with ScS instead of the default of U.</li>
+
+<li>
+Use snapshot to make a hard copy of your results to bring to next weeks
+class for discussion.</li>
+
+<li>
+Draw a ray diagram showing what each of the phases you interpreted represent.&nbsp;
+This will help in the discussion to remind people what those obscure names
+mean.</li>
+
+<li>
+Are there any other interesting features you see in the event you analyze
+and/or one of the phases you picked?</li>
+</ol>
+
+</body>
+</html>

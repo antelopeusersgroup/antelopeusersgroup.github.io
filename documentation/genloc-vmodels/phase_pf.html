@@ -1,0 +1,213 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Gary Pavlis">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]">
+</head>
+<body>
+
+<h1>
+Phase Definition Parameter Files in genloc</h1>
+
+<hr WIDTH="100%">
+<h3>
+The genloc Phase_handle object related parameter file definitions:</h3>
+
+<hr WIDTH="100%">
+<br>The first thing to understand about the phase definitions parameter
+files is that they are an encapsulation of an object-oriented definition
+of what I call a "phase handle" in genloc.&nbsp; That is the phase handle
+is a C structure (C++ object) that encapsulates all the information required
+in the location process to deal with a given phase name.&nbsp; This is
+an important flexibility element of genloc as it allows arbitrarily complex
+calculators to be assigned to any phase that can be tagged with a unique
+name.&nbsp; If you know C, you might find the following definition from
+the location.h include file for libgenloc to be helpful:
+<p>
+<hr WIDTH="100%">
+<br>typedef struct Phase_handle {
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char *name;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Distance_weight_function
+*arrival_time;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Distance_weight_function
+*ux,*uy;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; float deltat0, deltau0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double deltat_bound, deltau_bound;
+<br>&nbsp;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arr *time_station_corrections;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arr *ux_sc, *uy_sc;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Travel_Time_Function_Output
+(*ttcalc)();
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Slowness_Function_Output
+(*ucalc) ();
+<br>} Phase_handle;
+<br>
+<hr WIDTH="100%">
+<br>Now let's compare this to an example phase definition for genloc for
+a P phase:
+<br>
+<hr WIDTH="100%">
+<br>P&nbsp; &amp;Arr{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; travel_time_calculator general
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TTmodel kyrghyz
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TTmethod tt1dcvl tt1dcvl
+u1dcvl
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time_distance_weight_function
+&amp;Tbl{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.0&nbsp;&nbsp;&nbsp;&nbsp;
+1.0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.5&nbsp;&nbsp;&nbsp;&nbsp;
+1.0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.0&nbsp;&nbsp;&nbsp;&nbsp;
+0.25
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.0&nbsp;&nbsp;&nbsp;&nbsp;
+0.01
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 92.0&nbsp;&nbsp;&nbsp; 0.01
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 360.0&nbsp;&nbsp; 0.0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ux_distance_weight_function
+&amp;Tbl{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.0&nbsp;&nbsp;&nbsp;&nbsp;
+1.0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 180.0&nbsp;&nbsp; 1.0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; uy_distance_weight_function
+&amp;Tbl{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.0&nbsp;&nbsp;&nbsp;&nbsp;
+1.0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 180.0&nbsp;&nbsp; 1.0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default_time_uncertainty
+0.1
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default_slowness_uncertainty
+0.01
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dt_bound_factor 0.01
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; du_bound_factor 0.035
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time_station_corrections
+&amp;Tbl{
+<br>AAK -1.24
+<br>CHM 0.54
+<br>ULHL -0.2
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ux_station_corrections &amp;Tbl{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; uy_station_corrections &amp;Tbl{
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<br>}
+<br>
+<hr WIDTH="100%">
+<br>The name field in the parameter file is used to define a key that indexes
+this phase handle in genloc so the program can quickly find the method
+to handle, in this case, a P phase.&nbsp; The string "P" is also saved
+in the name field of the phase handle.
+<p>The most important variable in the parameter file is the one called
+<i>travel_time_calculator</i>.&nbsp;&nbsp; The last two lines in the typedef
+for the Phase_handle object are a C construct for a pointer to an external
+function.&nbsp; Internally when genloc initializes it resolves these pointers
+to a particular travel time calculator defined by a keyword it gets from
+the <i>travel_time_calculator&nbsp;</i> parameter.&nbsp; At the time of
+this writing the acceptable names associated with the <i>travel_time_calculator</i>
+parameter are:&nbsp; general, ttlvz,&nbsp; and "uniform table interpolation".&nbsp;
+ttlvz and uniform interpolation are in the process of being phased out
+(see genloc_ttinterface(3) for more details on these calculators).&nbsp;
+The preferred approach for the future is to use the "general" interface
+which uses the generic interface described in the antelope man pages under
+tt(3).&nbsp; The example above uses this interface.&nbsp; The <i>TTmethod</i>
+and <i>TTmodel</i> parameters define the method and model parameters passed
+to the generic tt interface.&nbsp;&nbsp; The example above looks in a velocity
+model database (see&nbsp; <a href="vmod_schema.html">velocity model schema
+document.</a> ) for a model named "kyrghyz" and says to use the method
+called "tt1dcvl" (a simple 1d, flat-earth, travel time calculator implemented
+through the generic travel time interface -- functionally the same as ttlvz).
+<p>Distance weighting is controlled by the <i>time_distance_weight_function,
+ux_distance_weight_function, </i>and <i>uy_distance_weight function </i>definitions.&nbsp;
+When distance weight is turned on in these define ordered pairs of (distance
+(degrees), weight) values that define a continuous distance weighting function
+by linear fits between the given node point.&nbsp; The example above for
+time uses a weight of 1.0 to a distance of 2.5 degrees then dropping in
+two stages to a small value at 5 degrees, then falling to 0 beyond 92 degrees.&nbsp;
+The ux and uy weight functions are for array slowness vector measurements.&nbsp;
+In this example, they are null.&nbsp; When any of the distance weight function
+tables are empty genloc defaults to a weight of 1.0 for all distances (effectively
+turning distance weighting off for that particular phase).&nbsp;&nbsp;
+Note that genloc ALWAYS&nbsp;uses vector components ux,uy to specify slowness
+vector data.&nbsp; Normally one should assume the same weight function
+should be used for both components, but this is generalized here to be
+different if desired.
+<p>The <i>default_time_uncertainty </i>and<i> default_slowness_uncertainty
+</i>map directly into the deltat0 and deltau0 entries in the phase handle
+object.&nbsp; As described in the man pages for genloc arrival time and
+slowness vector weighting always turned on.&nbsp; If the deltim, delslo,
+and delaz fields in the arrival table are filled in these are used to weight
+each measurement by the reciprocal of that number.&nbsp; If a field is
+null these parameters set the default value of uncertainty for this phase
+for time and slowness&nbsp; vector data respectively.
+<p>The <i>dt_bound_factor&nbsp; </i>and<i> du_bound_factor</i> are used
+in a model error bound calculator computed by genloc.&nbsp; See the genloc
+man pages for more information on this.&nbsp; Most people will likely not
+want to change these.
+<br>
+<hr WIDTH="100%">
+<h3>
+Overall File structure</h3>
+
+<hr WIDTH="100%">
+<br>The overall structure of a phase parameter definition file is like
+this:
+<br>
+<hr WIDTH="100%">
+<br>velocity_model_name <font color="#FF0000">myvelocitymodel</font>
+<br>phases &amp;Arr{
+<p>P&nbsp; &amp;Arr{
+<br>-- as in example above --
+<br>}
+<br>S &amp;Arr{
+<br>-- as in example above --
+<br>}
+<br>Pn &amp;Arr{
+<br>-- as in example above --
+<br>}
+<br>S-P &amp;Arr{
+<br>-- as in example above --
+<br>}
+<p>}
+<br>
+<hr WIDTH="100%">
+<br>That is, each token with the &amp;Arr after it defines a Phase_handle
+object for the phase name it is associated with.&nbsp; For the example
+above this is:&nbsp; P, S, Pn, and S-P.&nbsp; Other phases can be added
+if desired.&nbsp; Each phase may use any method or model you wish to use
+provided you complete the rest of the description properly for the calculator
+you choose.&nbsp; For example, it is quite possible to use the taup calculator
+to complute P phase arrival times and use a 1d layered model calculator
+to compute Pn arrival times.&nbsp; A potentially confusing point here is
+that you will quickly note that there are two different "velocity model
+name" quantities.&nbsp; The one inside the phase handle (tagged as <i>TTmodel</i>)
+is used only to search the database for the keyword name that tags a given
+model.&nbsp; It is essentially a lower level model name tag.&nbsp; The
+one shown above as <font color="#FF0000">myvelocitymodel</font><font color="#330000">
+above that appears as a separate parameter in the phase definition is a
+global name tagged to this model.&nbsp; Currently the primary use of this
+keyword is for tagging an origin estimate produced by dbgenloc.&nbsp; That
+is the auth field of dbgenloc will contain an entry of the form "dbgenloc:</font><font color="#FF0000">myvelocitymodel</font><font color="#330000">"
+(Noting, of course, that the auth field is not wide enough to actually
+contain the tag used here.&nbsp; You should use more cryptic labels like
+"kyrg".)</font>
+<p>There is one feature here that requires a separate discussion.&nbsp;
+One of the phase handles listed above has the tag "S-P".&nbsp; The genloc
+library now accepts "minus" phases and automatically forces processing
+in this form in certain circumstances.&nbsp; S-P is the type example of
+a minus phase where the raw arrival times are replaced by the difference
+in arrival time of the two phases.&nbsp; They are most valuable when dealing
+with data containing timing problems since the differencing removes the
+dependence upon the origin time.&nbsp;&nbsp; It is possible to use only
+minus times for a list of stations or have the feature automatically implemented
+using a database table called "timing.&nbsp;&nbsp; See the man pages on
+genloc for more details on this feature.
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>
